@@ -58,7 +58,16 @@ package modelo;
             this.estado = estado;
         }
 
-
+        // METODO TO STRING
+        @Override
+        public String toString() {
+            return "Producto{" +
+                    "nombre='" + nombre + '\'' +
+                    ", precio=" + precio +
+                    ", disponibilidad=" + disponibilidad +
+                    ", estado=" + estado +
+                    '}';
+        }
     }
 
 
