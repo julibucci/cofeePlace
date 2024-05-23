@@ -47,8 +47,6 @@ public class Comida extends Producto
     }
 
     // METODO TO STRING
-
-
     @Override
     public String toString() {
         return super.toString() + "Comida{" +
