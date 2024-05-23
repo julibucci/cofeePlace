@@ -19,7 +19,10 @@ public class Comida extends Producto
     }
 
     // METODOS GETTER
-    public String getTipo() {
+    public String getTipo() throws ProductoNoDisponibleException {
+        if (!isDisponibilidad()) {
+            throw new ProductoNoDisponibleException("El producto de comida no está disponible.");
+        }
         return tipo;
     }
 
@@ -37,21 +40,21 @@ public class Comida extends Producto
     }
 
     // EXCEPCION
-    public class ProductoNoDisponibleException extends Exception
-    {
-        public ProductoNoDisponibleException(String mensaje)
-        {
+    public static class ProductoNoDisponibleException extends Exception {
+        public ProductoNoDisponibleException(String mensaje) {
             super(mensaje);
         }
     }
-    public String getTipo() throws ProductoNoDisponibleException
-    {
-        if (!isDisponibilidad())
-        {
-            throw new ProductoNoDisponibleException("El producto de comida no está disponible.");
-        }
-        return tipo;
-    }
 
+    // METODO TO STRING
+
+
+    @Override
+    public String toString() {
+        return super.toString() + "Comida{" +
+                "tipo='" + tipo + '\'' +
+                ", vegetariano=" + vegetariano +
+                '}';
+    }
 }
 
