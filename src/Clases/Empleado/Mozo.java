@@ -1,4 +1,4 @@
-package Classes.Employees;
+package Clases.Empleado;
 
 public class Mozo extends Empleado {
     private static int salarioBase=90000;

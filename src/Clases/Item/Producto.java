@@ -1,4 +1,4 @@
-package Classes.Items;
+package Clases.Item;
 
     public abstract class Producto
     {

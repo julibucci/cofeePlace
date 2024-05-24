@@ -1,4 +1,4 @@
-package Classes.Items;
+package Clases.Item;
 
 import java.util.HashMap;
 

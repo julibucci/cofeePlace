@@ -1,4 +1,4 @@
-package Classes.Employees;
+package Clases.Empleado;
 
 public class Cocinero extends Empleado{
     private int cantidadDePlatos;
