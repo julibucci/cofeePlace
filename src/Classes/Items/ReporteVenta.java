@@ -1,4 +1,4 @@
-package modelo;
+package Classes.Items;
 
 import java.util.ArrayList;
 import java.util.HashMap;

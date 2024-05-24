@@ -1,8 +1,4 @@
-package modelo;
-
-import java.util.ArrayList;
-
-import java.util.List;
+package Classes.Items;
 
 public class Comida extends Producto
 {

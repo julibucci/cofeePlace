@@ -1,11 +1,6 @@
-import modelo.Bebida;
-import modelo.Comida;
-import modelo.Producto;
-import modelo.ReporteVenta;
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import Classes.Employees.*;
+import Classes.Items.*;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -75,6 +70,18 @@ public class Main {
         } catch (Comida.ProductoNoDisponibleException e) {
             System.out.println(e.getMessage());
         }
+
+        Mozo empleado1= new Mozo("Martina","Perez", 41583224,2018);
+        empleado1.setPropinas(1000);
+
+        Empleado empleado2=new Gerente("Juana","Pepe",28596474);
+
+        Cocinero empleado3=new Cocinero("Pedro","Sunsu",32659874);
+        empleado3.setCantidadDePlatos(800);
+
+        System.out.println(empleado1.toString());
+        System.out.println(empleado2.toString());
+        System.out.println(empleado3.toString());
     }
 }
 

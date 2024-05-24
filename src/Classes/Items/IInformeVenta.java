@@ -1,6 +1,6 @@
-package modelo;
+package Classes.Items;
+
 import java.util.HashMap;
-import java.util.Map;
 
 public interface IInformeVenta
 {
