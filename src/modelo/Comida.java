@@ -7,7 +7,7 @@ import java.util.List;
 public class Comida extends Producto
 {
     // ATRIBUTOS
-    private String tipo;
+    private String tipo;// dulce o salado
     private boolean vegetariano;
 
    // CONSTRUCTOR
@@ -21,7 +21,7 @@ public class Comida extends Producto
     // METODOS GETTER
     public String getTipo() throws ProductoNoDisponibleException {
         if (!isDisponibilidad()) {
-            throw new ProductoNoDisponibleException("El producto de comida no está disponible.");
+            throw new ProductoNoDisponibleException("El producto de comida no esta disponible.");
         }
         return tipo;
     }

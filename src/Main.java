@@ -13,68 +13,49 @@ public class Main {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
+        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, true, "Dulce", "Grande", false);
+        Producto bebida2 = new Bebida("Cerveza", 2.50, true, true, "Dulce", "Mediano", true);
+        Producto comida1 = new Comida("Hamburguesa", 5.00, true, true, "Rápida", false);
+        Producto comida2 = new Comida("Ensalada", 3.50, true, true, "Ligera", true);
 
-        Comida pizza = new Comida("Pizza", 8.99, true, true, "Italiana", false);
-        Comida sushi = new Comida("Sushi", 12.99, false, true, "Japonesa", false);
-        Bebida cola = new Bebida("Cola", 2.50, true, true, "Dulce", "Grande", false);
-        Bebida cerveza = new Bebida("Cerveza", 3.00, true, true, "Dulce", "Mediano", true);
+        // HashMap de productos vendidos
+        HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
 
-        // Crear mapas para cantidades y ingresos
-        HashMap<Producto, Integer> cantidadProductos = new HashMap<>();
-        HashMap<Producto, Double> ingresosProductos = new HashMap<>();
+        ArrayList<Producto> listaVentas1 = new ArrayList<>();
+        listaVentas1.add(bebida1);
+        listaVentas1.add(comida1);
 
-        // Añadir productos a los mapas
-        cantidadProductos.put(pizza, 10);
-        cantidadProductos.put(sushi, 5);
-        cantidadProductos.put(cola, 20);
-        cantidadProductos.put(cerveza, 15);
+        ArrayList<Producto> listaVentas2 = new ArrayList<>();
+        listaVentas2.add(bebida2);
+        listaVentas2.add(comida2);
+        listaVentas2.add(bebida1);
 
-        ingresosProductos.put(pizza, 89.90);
-        ingresosProductos.put(sushi, 64.95);
-        ingresosProductos.put(cola, 50.00);
-        ingresosProductos.put(cerveza, 45.00);
+        ventas.put(1, listaVentas1);
+        ventas.put(2, listaVentas2);
 
-        // Crear instancia de ReporteVenta
-        ReporteVenta reporte = new ReporteVenta();
+        ReporteVenta reporteVenta = new ReporteVenta();
 
-        // Obtener y mostrar cantidades e ingresos
-        int totalBebidas = reporte.obtenerCantidadBebidas(cantidadProductos);
-        int totalComidas = reporte.obtenerCantidadComida(cantidadProductos);
-        double ingresoTotal = reporte.obtenerIngresoTotal(ingresosProductos);
+        int cantidadBebidas = reporteVenta.obtenerCantidadBebidas(ventas);
+        System.out.println("Cantidad de bebidas vendidas: " + cantidadBebidas);
 
-        System.out.println("Total de bebidas vendidas: " + totalBebidas);
-        System.out.println("Total de comidas vendidas: " + totalComidas);
-        System.out.println("Ingreso total: $" + ingresoTotal);
+        int cantidadComidas = reporteVenta.obtenerCantidadComida(ventas);
+        System.out.println("Cantidad de comidas vendidas: " + cantidadComidas);
 
-        // Obtener y mostrar el producto más vendido
-        Producto masVendido = reporte.obtenerProductoMasVendido(cantidadProductos);
-        System.out.println("Producto más vendido: " + masVendido.getNombre());
+        double ingresoTotal = reporteVenta.obtenerIngresoTotal(ventas);
+        System.out.println("Ingreso total: " + ingresoTotal);
 
-        // Obtener y mostrar el producto con mayor ingreso
-        Producto mayorIngreso = reporte.obtenerProductoConMayorIngreso(ingresosProductos);
-        System.out.println("Producto con mayor ingreso: " + mayorIngreso.getNombre());
+        Producto productoMasVendido = reporteVenta.obtenerProductoMasVendido(ventas);
+        System.out.println("Producto más vendido: " + productoMasVendido.getNombre());
 
-        // Listar y mostrar productos disponibles
-        ArrayList<Producto> productosDisponibles = reporte.listarProductosDisponibles(cantidadProductos);
-        System.out.println("Productos disponibles:");
+        Producto productoMayorIngreso = reporteVenta.obtenerProductoConMayorIngreso(ventas);
+        System.out.println("Producto con mayor ingreso: " + productoMayorIngreso.getNombre());
+
+        ArrayList<Producto> productosDisponibles = reporteVenta.listarProductosDisponibles(ventas);
+        System.out.println("Productos disponibles: ");
         for (Producto producto : productosDisponibles) {
-            System.out.println("- " + producto.getNombre());
+            System.out.println(producto);
         }
 
-        // Usar algunos métodos adicionales
-        // Cambiar el tamaño de la cola
-        cola.cambiarTamanio("Mediano");
-
-        // Mostrar información de la cola después de cambiar el tamaño
-        System.out.println("Información de la cola después de cambiar el tamaño:");
-        System.out.println(cola);
-
-        // Intentar obtener el tipo de sushi
-        try {
-            System.out.println("Tipo de sushi: " + sushi.getTipo());
-        } catch (Comida.ProductoNoDisponibleException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }
 
