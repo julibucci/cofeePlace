@@ -13,10 +13,10 @@ public class Main {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
-        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, true, "Dulce", "Grande", false);
-        Producto bebida2 = new Bebida("Cerveza", 2.50, true, true, "Dulce", "Mediano", true);
-        Producto comida1 = new Comida("Hamburguesa", 5.00, true, true, "Rápida", false);
-        Producto comida2 = new Comida("Ensalada", 3.50, true, true, "Ligera", true);
+        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, "Dulce", "Grande", false);
+        Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, "Dulce", "Mediano", true);
+        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false);
+        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true);
 
         // HashMap de productos vendidos
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
