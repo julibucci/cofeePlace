@@ -5,7 +5,7 @@ import java.util.List;
 public class Bebida extends Producto
 {
     // ATRIBUTOS
-    private String tipo; // dulce o salado
+    private String tipo;
     private String tamanio; // Puede ser chico,mediano o grande
     private boolean alcoholica;
 

@@ -7,28 +7,31 @@ public class ReporteVenta implements IInformeVenta
 {
     // METODO OBTENER CANTIDAD DE BEBIDAS QUE FUERON VENDIDAS
     @Override
-    public
-    int obtenerCantidadBebidas(HashMap<Producto, Integer> cantidadProductos) {
+    public int obtenerCantidadBebidas(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         int totalBebidas = 0;
-        for (HashMap.Entry<Producto, Integer> entry : cantidadProductos.entrySet()) {
-            Producto producto = entry.getKey();
-            int cantidad = entry.getValue();
-            if (producto instanceof Bebida) {
-                totalBebidas += cantidad;
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet()) {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (int i = 0; i < listaProductos.size(); i++) {
+                Producto producto = listaProductos.get(i);
+                if (producto instanceof Bebida) {
+                    totalBebidas++;
+                }
             }
         }
         return totalBebidas;
     }
-    // METODO OBTENER CANTIDAD DE COMIDA QUE FUERON VENDIDAS
 
+    // METODO OBTENER CANTIDAD DE COMIDA QUE FUERON VENDIDAS
     @Override
-    public int obtenerCantidadComida(HashMap<Producto, Integer> cantidadProductos) {
+    public int obtenerCantidadComida(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         int totalComida = 0;
-        for (HashMap.Entry<Producto, Integer> entry : cantidadProductos.entrySet()) {
-            Producto producto = entry.getKey();
-            int cantidad = entry.getValue();
-            if (producto instanceof Comida) {
-                totalComida += cantidad;
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet()) {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (int i = 0; i < listaProductos.size(); i++) {
+                Producto producto = listaProductos.get(i);
+                if (producto instanceof Comida) {
+                    totalComida++;
+                }
             }
         }
         return totalComida;
@@ -36,20 +39,32 @@ public class ReporteVenta implements IInformeVenta
 
     // METODO PARA OBTENER INGRESO TOTAL
     @Override
-    public double obtenerIngresoTotal(HashMap<Producto, Double> ingresosProductos) {
+    public double obtenerIngresoTotal(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         double ingresoTotal = 0;
-        for (double ingreso : ingresosProductos.values()) {
-            ingresoTotal += ingreso;
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet()) {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (Producto producto : listaProductos) {
+                ingresoTotal += producto.getPrecio();
+            }
         }
         return ingresoTotal;
     }
 
     // METODO PARA OBTENER EL PRODUCTO MAS VENDIDO
-    public Producto obtenerProductoMasVendido(HashMap<Producto, Integer> cantidadProductos) {
+    public Producto obtenerProductoMasVendido(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         Producto masVendido = null;
         int maxCantidad = 0;
+        HashMap<Producto, Integer> contadorProductos = new HashMap<>();
 
-        for (HashMap.Entry<Producto, Integer> entry : cantidadProductos.entrySet()) {
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet()) {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (int i = 0; i < listaProductos.size(); i++) {
+                Producto producto = listaProductos.get(i);
+                contadorProductos.put(producto, contadorProductos.getOrDefault(producto, 0) + 1);
+            }
+        }
+
+        for (HashMap.Entry<Producto, Integer> entry : contadorProductos.entrySet()) {
             if (entry.getValue() > maxCantidad) {
                 masVendido = entry.getKey();
                 maxCantidad = entry.getValue();
@@ -60,12 +75,25 @@ public class ReporteVenta implements IInformeVenta
     }
 
     // METODO PARA OBTENER EL PRODUCTO CON MAS VENTAS
-    public Producto obtenerProductoConMayorIngreso(HashMap<Producto, Double> ingresosProductos) {
+    public Producto obtenerProductoConMayorIngreso(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         Producto mayorIngreso = null;
         double maxIngreso = 0;
+        HashMap<Producto, Double> ingresosProductos = new HashMap<>();
 
-        for (HashMap.Entry<Producto, Double> entry : ingresosProductos.entrySet()) {
-            if (entry.getValue() > maxIngreso) {
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet())
+        {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (Producto producto : listaProductos)
+            {
+                double ingreso = producto.getPrecio();
+                ingresosProductos.put(producto, ingresosProductos.getOrDefault(producto, 0.0) + ingreso);
+            }
+        }
+
+        for (HashMap.Entry<Producto, Double> entry : ingresosProductos.entrySet())
+        {
+            if (entry.getValue() > maxIngreso)
+            {
                 mayorIngreso = entry.getKey();
                 maxIngreso = entry.getValue();
             }
@@ -75,13 +103,21 @@ public class ReporteVenta implements IInformeVenta
     }
 
     // METODO PARA LISTAS PRODUCTOS DISPONIBLES
-    public ArrayList<Producto> listarProductosDisponibles(HashMap<Producto, Integer> cantidadProductos) {
+    public ArrayList<Producto> listarProductosDisponibles(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
         ArrayList<Producto> productosDisponibles = new ArrayList<>();
-        for (Producto producto : cantidadProductos.keySet()) {
-            if (producto.isDisponibilidad()) {
-                productosDisponibles.add(producto);
+
+        for (HashMap.Entry<Integer, ArrayList<Producto>> entry : cantidadProductos.entrySet()) {
+            ArrayList<Producto> listaProductos = entry.getValue();
+            for (int i = 0; i < listaProductos.size(); i++) {
+                Producto producto = listaProductos.get(i);
+                if (producto.isDisponibilidad()) {
+                    productosDisponibles.add(producto);
+                }
             }
         }
         return productosDisponibles;
+
     }
+
+
 }
