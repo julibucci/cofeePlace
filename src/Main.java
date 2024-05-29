@@ -1,7 +1,4 @@
-import modelo.Bebida;
-import modelo.Comida;
-import modelo.Producto;
-import modelo.ReporteVenta;
+import modelo.*;
 
 
 import java.util.ArrayList;
@@ -11,12 +8,25 @@ import java.util.HashMap;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
+
+        Ingrediente carne = new Ingrediente("Carne", 300);
+        Ingrediente lechuga = new Ingrediente("Lechuga", 100);
+        Ingrediente tomate = new Ingrediente("Tomate", 100);
+
+        ArrayList<Ingrediente> ingredientesHamburguesa = new ArrayList<>();
+        ingredientesHamburguesa.add(carne);
+        ingredientesHamburguesa.add(lechuga);
+        ingredientesHamburguesa.add(tomate);
+
+        ArrayList<Ingrediente> ingredientesEnsalada = new ArrayList<>();
+        ingredientesEnsalada.add(lechuga);
+        ingredientesEnsalada.add(tomate);
+
         Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, "Dulce", "Grande", false);
         Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, "Dulce", "Mediano", true);
         Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false);
         Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true);
+
 
         // HashMap de productos vendidos
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
