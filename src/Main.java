@@ -1,11 +1,8 @@
 import modelo.*;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
@@ -27,8 +24,7 @@ public class Main {
         Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false);
         Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true);
 
-
-        // HashMap de productos vendidos
+        //Se crea un registro para las ventas
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
 
         ArrayList<Producto> listaVentas1 = new ArrayList<>();
@@ -43,34 +39,36 @@ public class Main {
         ventas.put(1, listaVentas1);
         ventas.put(2, listaVentas2);
 
-        ReporteVenta reporteVenta = new ReporteVenta();
+        //Se crea una instancia de ReporteVenta que ahora es generica. De esat forma, se le puede pasar una lista de ventas de cualquier tipo de producto.
+        ReporteVenta<Producto> reporteVenta = new ReporteVenta<>(ventas);
 
-        int cantidadBebidas = reporteVenta.obtenerCantidadBebidas(ventas);
+        int cantidadBebidas = reporteVenta.obtenerCantidadBebidas();
         System.out.println("Cantidad de bebidas vendidas: " + cantidadBebidas);
 
-        int cantidadComidas = reporteVenta.obtenerCantidadComida(ventas);
+        int cantidadComidas = reporteVenta.obtenerCantidadComida();
         System.out.println("Cantidad de comidas vendidas: " + cantidadComidas);
 
-        double ingresoTotal = reporteVenta.obtenerIngresoTotal(ventas);
+        double ingresoTotal = reporteVenta.obtenerIngresoTotal();
         System.out.println("Ingreso total: " + ingresoTotal);
 
-        Producto productoMasVendido = reporteVenta.obtenerProductoMasVendido(ventas);
-        System.out.println("Producto más vendido: " + productoMasVendido.getNombre());
+        Producto productoMasVendido = reporteVenta.obtenerProductoMasVendido();
+        if (productoMasVendido != null) {
+            System.out.println("Producto más vendido: " + productoMasVendido.getNombre());
+        } else {
+            System.out.println("No hay productos vendidos.");
+        }
 
-        Producto productoMayorIngreso = reporteVenta.obtenerProductoConMayorIngreso(ventas);
-        System.out.println("Producto con mayor ingreso: " + productoMayorIngreso.getNombre());
+        Producto productoMayorIngreso = reporteVenta.obtenerProductoConMayorIngreso();
+        if (productoMayorIngreso != null) {
+            System.out.println("Producto con mayor ingreso: " + productoMayorIngreso.getNombre());
+        } else {
+            System.out.println("No hay productos vendidos.");
+        }
 
-        ArrayList<Producto> productosDisponibles = reporteVenta.listarProductosDisponibles(ventas);
+        ArrayList<Producto> productosDisponibles = reporteVenta.listarProductosDisponibles();
         System.out.println("Productos disponibles: ");
         for (Producto producto : productosDisponibles) {
             System.out.println(producto);
         }
-
     }
 }
-
-
-
-
-
-
