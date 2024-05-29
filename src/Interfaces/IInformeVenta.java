@@ -1,4 +1,6 @@
-package modelo;
+package Interfaces;
+import modelo.Producto;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
