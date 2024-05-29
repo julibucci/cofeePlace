@@ -10,7 +10,7 @@ public class Bebida extends Producto
     private boolean alcoholica;
 
     // CONSTRUCTOR
-    public Bebida(String nombre, double precio, boolean disponibilidad, boolean estado, String tipo, String tamanio,boolean alcoholica)
+    public Bebida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, String tamanio,boolean alcoholica)
     {
         super(nombre, precio, disponibilidad, estado);
         this.tipo = tipo;
