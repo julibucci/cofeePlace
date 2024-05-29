@@ -1,5 +1,7 @@
 package modelo;
 
+import Interfaces.IInformeVenta;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

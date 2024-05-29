@@ -11,7 +11,7 @@ public class Comida extends Producto
     private boolean vegetariano;
 
    // CONSTRUCTOR
-    public Comida(String nombre, double precio, boolean disponibilidad, boolean estado, String tipo, boolean vegetariano)
+    public Comida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, boolean vegetariano)
     {
         super(nombre, precio, disponibilidad, estado);
         this.tipo = tipo;
