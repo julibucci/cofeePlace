@@ -9,20 +9,9 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
-        Ingrediente agua = new Ingrediente("Agua", 500);
-        Ingrediente azucar = new Ingrediente("Azúcar", 100);
-        Ingrediente cebada = new Ingrediente("Cebada", 200);
         Ingrediente carne = new Ingrediente("Carne", 300);
         Ingrediente lechuga = new Ingrediente("Lechuga", 100);
         Ingrediente tomate = new Ingrediente("Tomate", 100);
-
-        ArrayList<Ingrediente> ingredientesCocaCola = new ArrayList<>();
-        ingredientesCocaCola.add(agua);
-        ingredientesCocaCola.add(azucar);
-
-        ArrayList<Ingrediente> ingredientesCerveza = new ArrayList<>();
-        ingredientesCerveza.add(agua);
-        ingredientesCerveza.add(cebada);
 
         ArrayList<Ingrediente> ingredientesHamburguesa = new ArrayList<>();
         ingredientesHamburguesa.add(carne);
