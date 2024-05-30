@@ -5,22 +5,23 @@ import Excepciones.OrdenNoEncontradaException;
 public class Mesa {
 
     // Clase Mesa que gestiona un pedido y un empleado asignado
-    private Empleado empleadoAsignado;
+    private Mozo mozoAsignado;
     private Pedido miPedido;
     private int idMesa;
 
-    public Mesa(int idMesa, Empleado empleadoAsignado) {
+    public Mesa(int idMesa, Mozo mozoAsignado) {
         this.idMesa = idMesa;
-        this.empleadoAsignado = empleadoAsignado;
+        this.mozoAsignado = mozoAsignado;
         this.miPedido = new Pedido();
     }
 
-    public Empleado getEmpleadoAsignado() {
-        return empleadoAsignado;
+    public Mozo getMozoAsignado() {
+
+        return mozoAsignado;
     }
 
-    public void setEmpleadoAsignado(Empleado empleadoAsignado) {
-        this.empleadoAsignado = empleadoAsignado;
+    public void asignarMozo(Mozo mozo) {
+        this.mozoAsignado = mozo;
     }
 
     public Pedido getMiPedido() {
@@ -59,7 +60,7 @@ public class Mesa {
     public String toString() {
         return "Mesa{" +
                 "idMesa=" + idMesa +
-                ", empleadoAsignado=" + empleadoAsignado.getNombre() +
+                ", empleadoAsignado=" + mozoAsignado.getNombre() +
                 ", miPedido=" + miPedido +
                 '}';
     }
