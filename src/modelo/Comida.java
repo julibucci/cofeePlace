@@ -9,13 +9,15 @@ public class Comida extends Producto
     // ATRIBUTOS
     private String tipo;// dulce o salado
     private boolean vegetariano;
+    private Receta receta;
 
    // CONSTRUCTOR
-    public Comida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, boolean vegetariano)
+    public Comida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, boolean vegetariano,Receta receta)
     {
         super(nombre, precio, disponibilidad, estado);
         this.tipo = tipo;
         this.vegetariano = vegetariano;
+        this.receta = receta;
     }
 
     // METODOS GETTER
@@ -30,6 +32,10 @@ public class Comida extends Producto
         return vegetariano;
     }
 
+    public Receta getReceta() {
+        return receta;
+    }
+
     // METODOS SETTER
     public void setTipo(String tipo) {
         this.tipo = tipo;
@@ -37,6 +43,10 @@ public class Comida extends Producto
 
     public void setVegetariano(boolean vegetariano) {
         this.vegetariano = vegetariano;
+    }
+
+    public void setReceta(Receta receta) {
+        this.receta = receta;
     }
 
     // EXCEPCION
