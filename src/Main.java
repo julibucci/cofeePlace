@@ -66,6 +66,21 @@ public class Main {
             System.out.println(producto);
         }
 
+        Stock stock = new Stock();
+        stock.agregarIngrediente(carne);
+        stock.agregarIngrediente(lechuga);
+        stock.agregarIngrediente(tomate);
+
+        System.out.println("Stock inicial:");
+        System.out.println(stock);
+
+        try {
+            stock.eliminarIngrediente("Lechuga", 50);
+            System.out.println("Stock despues de eliminar 50 de Lechuga:");
+            System.out.println(stock);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
