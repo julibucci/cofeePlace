@@ -22,11 +22,13 @@ public class Main {
         ingredientesEnsalada.add(lechuga);
         ingredientesEnsalada.add(tomate);
 
+        Receta recetaHamburguesa = new Receta("Hamburguesa", ingredientesHamburguesa);
+        Receta recetaEnsalada = new Receta("Ensalada", ingredientesEnsalada);
+
         Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, "Dulce", "Grande", false);
         Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, "Dulce", "Mediano", true);
-        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false);
-        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true);
-
+        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false, recetaHamburguesa);
+        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true, recetaEnsalada);
 
         // HashMap de productos vendidos
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
