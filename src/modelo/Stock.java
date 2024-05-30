@@ -1,11 +1,10 @@
 package modelo;
-
 import java.util.HashMap;
 
 public class Stock
 {
     // ATRIBUTOS
-    private Map<String, Ingrediente> inventario;
+    private HashMap<String, Ingrediente> inventario;
 
     // CONSTRUCTOR
     public Stock()
@@ -15,9 +14,17 @@ public class Stock
 
     // METODOS
     // METODO AGREGAR INGREDIENTE
-    public void agregarIngrediente(Ingrediente ingrediente) {
-        inventario.put(ingrediente.getNombre(), inventario.getOrDefault(ingrediente.getNombre(), new Ingrediente(ingrediente.getNombre(), 0)));
-        inventario.get(ingrediente.getNombre()).setCantidad(inventario.get(ingrediente.getNombre()).getCantidad() + ingrediente.getCantidad());
+    public void agregarIngrediente(Ingrediente ingrediente)
+    {
+        String nombre = ingrediente.getNombre();
+        int cantidad = ingrediente.getCantidad();
+
+        if (inventario.containsKey(nombre)) {
+            Ingrediente existente = inventario.get(nombre);
+            existente.setCantidad(existente.getCantidad() + cantidad);
+        } else {
+            inventario.put(nombre, new Ingrediente(nombre, cantidad));
+        }
     }
 
     // METODO ELIMINAR INGREDIENTE
