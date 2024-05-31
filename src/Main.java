@@ -25,10 +25,10 @@ public class Main {
         Receta recetaHamburguesa = new Receta("Hamburguesa", ingredientesHamburguesa);
         Receta recetaEnsalada = new Receta("Ensalada", ingredientesEnsalada);
 
-        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, "Dulce", "Grande", false);
-        Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, "Dulce", "Mediano", true);
-        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false, recetaHamburguesa);
-        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true, recetaEnsalada);
+        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA, "Dulce", "Grande", false);
+        Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA, "Dulce", "Mediano", true);
+        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Rápida", false, recetaHamburguesa);
+        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Ligera", true, recetaEnsalada);
 
         // HashMap de productos vendidos
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
@@ -45,24 +45,24 @@ public class Main {
         ventas.put(1, listaVentas1);
         ventas.put(2, listaVentas2);
 
-        ReporteVenta reporteVenta = new ReporteVenta();
+        ReporteVenta reporteVenta = new ReporteVenta(ventas);
 
-        int cantidadBebidas = reporteVenta.obtenerCantidadBebidas(ventas);
+        int cantidadBebidas = reporteVenta.obtenerCantidadProducto(Producto.TipoProducto.BEBIDA);
         System.out.println("Cantidad de bebidas vendidas: " + cantidadBebidas);
 
-        int cantidadComidas = reporteVenta.obtenerCantidadComida(ventas);
+        int cantidadComidas = reporteVenta.obtenerCantidadProducto(Producto.TipoProducto.COMIDA);
         System.out.println("Cantidad de comidas vendidas: " + cantidadComidas);
 
-        double ingresoTotal = reporteVenta.obtenerIngresoTotal(ventas);
+        double ingresoTotal = reporteVenta.obtenerIngresoTotal();
         System.out.println("Ingreso total: " + ingresoTotal);
 
-        Producto productoMasVendido = reporteVenta.obtenerProductoMasVendido(ventas);
+        Producto productoMasVendido = reporteVenta.obtenerProductoMasVendido();
         System.out.println("Producto más vendido: " + productoMasVendido.getNombre());
 
-        Producto productoMayorIngreso = reporteVenta.obtenerProductoConMayorIngreso(ventas);
+        Producto productoMayorIngreso = reporteVenta.obtenerProductoConMayorIngreso();
         System.out.println("Producto con mayor ingreso: " + productoMayorIngreso.getNombre());
 
-        ArrayList<Producto> productosDisponibles = reporteVenta.listarProductosDisponibles(ventas);
+        ArrayList<Producto> productosDisponibles = reporteVenta.listarProductosDisponibles();
         System.out.println("Productos disponibles: ");
         for (Producto producto : productosDisponibles) {
             System.out.println(producto);

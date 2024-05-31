@@ -7,10 +7,15 @@ public abstract class Producto
     private double precio;
     private boolean disponibilidad;
     private Estado estado;
+    private TipoProducto tipoProducto;
 
     // ENUMERACION
     public enum Estado {
         LISTO, NO_LISTO
+    }
+
+    public enum TipoProducto{
+        COMIDA, BEBIDA
     }
 
     // CONSTRUCTOR
@@ -22,11 +27,12 @@ public abstract class Producto
         estado = Estado.LISTO;
     }
 
-    public Producto(String nombre, double precio, boolean disponibilidad, Estado estado) {
+    public Producto(String nombre, double precio, boolean disponibilidad, Estado estado, TipoProducto tipoProducto) {
         this.nombre = nombre;
         this.precio = precio;
         this.disponibilidad = disponibilidad;
         this.estado = estado;
+        this.tipoProducto = tipoProducto;
     }
 
     // METODOS GETTER
@@ -46,6 +52,11 @@ public abstract class Producto
         return estado;
     }
 
+    public TipoProducto getTipoProducto()
+    {
+        return tipoProducto;
+    }
+
     // METODOS SETTER
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -63,14 +74,16 @@ public abstract class Producto
         this.estado = estado;
     }
 
+
+
     // METODO TO STRING
     @Override
     public String toString() {
-        return "Producto{" +
-                "nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-                ", disponibilidad=" + disponibilidad +
-                ", estado=" + estado +
+        return "PRODUCTO{" +
+                "nombre = '" + nombre + '\'' +
+                ", precio = " + precio +
+                ", disponibilidad = " + disponibilidad +
+                ", estado = " + estado +
                 '}';
     }
 }
