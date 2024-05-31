@@ -15,36 +15,6 @@ public class Gerente extends Empleado {
         return salario;
     }
 
-    public int obtenerCantidadBebidas(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.obtenerCantidadBebidas(cantidadProductos);
-    }
-
-    public int obtenerCantidadComida(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.obtenerCantidadComida(cantidadProductos);
-    }
-
-    public double obtenerIngresoTotal(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.obtenerIngresoTotal(cantidadProductos);
-    }
-
-    public Producto obtenerProductoMasVendido(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.obtenerProductoMasVendido(cantidadProductos);
-    }
-
-    public Producto obtenerProductoConMayorIngreso(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.obtenerProductoConMayorIngreso(cantidadProductos);
-    }
-
-    public ArrayList<Producto> listarProductosDisponibles(HashMap<Integer, ArrayList<Producto>> cantidadProductos) {
-        ReporteVenta reporte = new ReporteVenta();
-        return reporte.listarProductosDisponibles(cantidadProductos);
-    }
-
     @Override
     public String toString() {
         return super.toString() +" salario: " + calcularSalario();
