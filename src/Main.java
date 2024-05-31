@@ -19,10 +19,10 @@ public class Main {
         ingredientesEnsalada.add(lechuga);
         ingredientesEnsalada.add(tomate);
 
-        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, "Dulce", "Grande", false);
-        Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, "Dulce", "Mediano", true);
-        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, "Rápida", false);
-        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, "Ligera", true);
+        Producto bebida1 = new Bebida("Coca Cola", 1.50, true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA,"Dulce", "Grande", false);
+        Producto bebida2 = new Bebida("Cerveza", 2.50, true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA,"Dulce", "Mediano", true);
+        Producto comida1 = new Comida("Hamburguesa", 5.00, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA,"Rápida", false);
+        Producto comida2 = new Comida("Ensalada", 3.50, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Ligera", true);
 
         //Se crea un registro para las ventas
         HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
@@ -39,7 +39,7 @@ public class Main {
         ventas.put(1, listaVentas1);
         ventas.put(2, listaVentas2);
 
-        //Se crea una instancia de ReporteVenta que ahora es generica. De esat forma, se le puede pasar una lista de ventas de cualquier tipo de producto.
+        //Se crea una instancia de ReporteVenta que ahora es generica. De esta forma, se le puede pasar una lista de ventas de cualquier tipo de producto.
         ReporteVenta<Producto> reporteVenta = new ReporteVenta<>(ventas);
 
         int cantidadBebidas = reporteVenta.obtenerCantidadProducto(Producto.TipoProducto.BEBIDA);

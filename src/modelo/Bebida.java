@@ -10,9 +10,9 @@ public class Bebida extends Producto
     private boolean alcoholica;
 
     // CONSTRUCTOR
-    public Bebida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, String tamanio,boolean alcoholica)
+    public Bebida(String nombre, double precio, boolean disponibilidad, Estado estado, TipoProducto tipoProducto, String tipo, String tamanio, boolean alcoholica)
     {
-        super(nombre, precio, disponibilidad, estado);
+        super(nombre, precio, disponibilidad, estado, tipoProducto);
         this.tipo = tipo;
         this.tamanio = tamanio;
         this.alcoholica = alcoholica;
@@ -47,9 +47,9 @@ public class Bebida extends Producto
     // METODO TO STRING
     @Override
     public String toString() {
-        return super.toString() + "Bebida{" +
-                "tipo='" + tipo + '\'' +
-                ", tamanio='" + tamanio + '\'' +
+        return super.toString() + " - " + getTipoProducto() +"{" +
+                "tipo = '" + tipo + '\'' +
+                ", tamanio = '" + tamanio + '\'' +
                 '}';
     }
 
@@ -58,11 +58,13 @@ public class Bebida extends Producto
         this.tamanio = nuevoTamanio;
     }
 
-    @Override
-    public TipoProducto getTipoProducto()
+
+   /* public TipoProducto getTipoProducto()
     {
         return TipoProducto.BEBIDA;
     }
+
+    */
 
 }
 

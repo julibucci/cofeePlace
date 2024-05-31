@@ -11,9 +11,9 @@ public class Comida extends Producto
     private boolean vegetariano;
 
    // CONSTRUCTOR
-    public Comida(String nombre, double precio, boolean disponibilidad, Estado estado, String tipo, boolean vegetariano)
+    public Comida(String nombre, double precio, boolean disponibilidad, Estado estado, TipoProducto tipoProducto, String tipo, boolean vegetariano)
     {
-        super(nombre, precio, disponibilidad, estado);
+        super(nombre, precio, disponibilidad, estado, tipoProducto);
         this.tipo = tipo;
         this.vegetariano = vegetariano;
     }
@@ -46,18 +46,20 @@ public class Comida extends Producto
         }
     }
 
-    @Override
+   /*
     public TipoProducto getTipoProducto()
     {
         return TipoProducto.COMIDA;
     }
 
+    */
+
     // METODO TO STRING
     @Override
     public String toString() {
-        return super.toString() + "Comida{" +
-                "tipo='" + tipo + '\'' +
-                ", vegetariano=" + vegetariano +
+        return super.toString() +  " - " + getTipoProducto() + "{" +
+                "tipo = '" + tipo + '\'' +
+                ", vegetariano = " + vegetariano +
                 '}';
     }
 }
