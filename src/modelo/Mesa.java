@@ -14,7 +14,6 @@ public class Mesa {
         this.empleadoAsignado = empleadoAsignado;
         this.miPedido = new Pedido();
     }
-
     public Empleado getEmpleadoAsignado() {
         return empleadoAsignado;
     }

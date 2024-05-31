@@ -6,6 +6,11 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
+        //Menu menu = new Menu();
+
+        //String mostrarMenu = menu.toString();
+        //System.out.println(mostrarMenu);
+
         Ingrediente carne = new Ingrediente("Carne", 300);
         Ingrediente lechuga = new Ingrediente("Lechuga", 100);
         Ingrediente tomate = new Ingrediente("Tomate", 100);
