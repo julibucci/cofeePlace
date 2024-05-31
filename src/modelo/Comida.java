@@ -46,6 +46,12 @@ public class Comida extends Producto
         }
     }
 
+    @Override
+    public TipoProducto getTipoProducto()
+    {
+        return TipoProducto.COMIDA;
+    }
+
     // METODO TO STRING
     @Override
     public String toString() {

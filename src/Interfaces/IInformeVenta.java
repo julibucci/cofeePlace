@@ -7,8 +7,7 @@ import java.util.Map;
 
 public interface IInformeVenta<T>
 {
-    int obtenerCantidadBebidas();
-    int obtenerCantidadComida();
+    int obtenerCantidadProducto(Producto.TipoProducto tipoProducto);
     double obtenerIngresoTotal();
     Producto obtenerProductoMasVendido();
     Producto obtenerProductoConMayorIngreso();

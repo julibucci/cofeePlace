@@ -19,36 +19,27 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
         this.cantidadProductos = cantidadProductos;
     }
 
-    @Override
-    public int obtenerCantidadBebidas() {
-        int totalBebidas = 0;
-        for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
+    public int obtenerCantidadProducto(Producto.TipoProducto tipoProducto)
+    {
+        int total = 0;
+        for(Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet())
+        {
             ArrayList<T> listaProductos = entry.getValue();
-            for (T producto : listaProductos) {
-                if (producto instanceof Bebida) {
-                    totalBebidas++;
+
+            for (T producto : listaProductos)
+            {
+                if (producto.getTipoProducto() == tipoProducto)
+                {
+                    total++;
                 }
             }
         }
-        return totalBebidas;
+        return total;
     }
 
     @Override
-    public int obtenerCantidadComida() {
-        int totalComida = 0;
-        for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
-            ArrayList<T> listaProductos = entry.getValue();
-            for (T producto : listaProductos) {
-                if (producto instanceof Comida) {
-                    totalComida++;
-                }
-            }
-        }
-        return totalComida;
-    }
-
-    @Override
-    public double obtenerIngresoTotal() {
+    public double obtenerIngresoTotal()
+    {
         double ingresoTotal = 0;
         for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
             ArrayList<T> listaProductos = entry.getValue();

@@ -58,5 +58,11 @@ public class Bebida extends Producto
         this.tamanio = nuevoTamanio;
     }
 
+    @Override
+    public TipoProducto getTipoProducto()
+    {
+        return TipoProducto.BEBIDA;
+    }
+
 }
 

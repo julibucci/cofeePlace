@@ -42,10 +42,10 @@ public class Main {
         //Se crea una instancia de ReporteVenta que ahora es generica. De esat forma, se le puede pasar una lista de ventas de cualquier tipo de producto.
         ReporteVenta<Producto> reporteVenta = new ReporteVenta<>(ventas);
 
-        int cantidadBebidas = reporteVenta.obtenerCantidadBebidas();
+        int cantidadBebidas = reporteVenta.obtenerCantidadProducto(Producto.TipoProducto.BEBIDA);
         System.out.println("Cantidad de bebidas vendidas: " + cantidadBebidas);
 
-        int cantidadComidas = reporteVenta.obtenerCantidadComida();
+        int cantidadComidas = reporteVenta.obtenerCantidadProducto(Producto.TipoProducto.COMIDA);
         System.out.println("Cantidad de comidas vendidas: " + cantidadComidas);
 
         double ingresoTotal = reporteVenta.obtenerIngresoTotal();

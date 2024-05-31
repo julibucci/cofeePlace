@@ -13,6 +13,10 @@ public abstract class Producto
         LISTO, NO_LISTO
     }
 
+    public enum TipoProducto{
+        COMIDA, BEBIDA
+    }
+
     // CONSTRUCTOR
     public Producto ()
     {
@@ -62,6 +66,8 @@ public abstract class Producto
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
+    public abstract TipoProducto getTipoProducto();
 
     // METODO TO STRING
     @Override
