@@ -131,7 +131,12 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
                     productoJson.put("nombre", producto.getNombre());
                     productoJson.put("precio", producto.getPrecio());
                     productoJson.put("disponibilidad", producto.isDisponibilidad());
-                    productoJson.put("estado", producto.getEstado().toString());
+                    // Obtiene el estado del producto
+                    Producto.Estado estadoProducto = producto.getEstado();
+                    // Convierte el estado a String
+                    String estado = estadoProducto.toString();
+                    // Asigna el estado al JSON
+                    productoJson.put("estado", estado);
 
                     if (producto instanceof Bebida) {
                         Bebida bebida = (Bebida) producto;
@@ -145,7 +150,11 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
                         }
                         productoJson.put("tipo", comida.getTipo());
                         productoJson.put("vegetariano", comida.isVegetariano());
-                        productoJson.put("receta", comida.getReceta().getNombrePlato());
+                        Receta receta = comida.getReceta();
+                        if (receta != null) {
+                            String nombrePlato = receta.getNombrePlato();
+                            productoJson.put("receta", nombrePlato);
+                        }
                     }
 
                     productosArray.put(productoJson);
