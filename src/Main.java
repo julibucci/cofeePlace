@@ -90,6 +90,7 @@ public class Main {
             JSONObject json = reporteVenta.toJson();
             JsonUtiles.grabar(json, "reporte_ventas");
             System.out.println("Reporte de ventas guardado exitosamente.");
+            System.out.println(json.toString());
         } catch (Comida.ProductoNoDisponibleException e) {
             System.err.println(e.getMessage());
         }
