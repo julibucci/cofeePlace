@@ -1,9 +1,10 @@
 package modelo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Empleado {
+public abstract class Empleado implements Serializable {
     private String nombre;
     private String apellido;
     private int dni;

@@ -1,6 +1,8 @@
 package modelo;
 
-public class Ingrediente
+import java.io.Serializable;
+
+public class Ingrediente implements Serializable
 {
     // ATRIBUTOS
     private String nombre;

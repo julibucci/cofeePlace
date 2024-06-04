@@ -1,9 +1,11 @@
 package modelo;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Cocinero extends Empleado{
+public class Cocinero extends Empleado implements Serializable {
     private int cantidadDePlatos;
     private static int salarioBase=70000;
 
@@ -25,14 +27,31 @@ public class Cocinero extends Empleado{
         }
         return resultado;
     }
+    //Recibe una receta, se fija en el stock si hay suficientes ingredientes y crea y devuelve una comida lista
+    public Producto prepararPlato(Receta receta, Stock stock) {
+        Producto platoPreparado = null;
+        try {
+            ArrayList<Ingrediente> ingredientesNecesarios = receta.getIngredientes();
 
-    public Producto prepararPlato(Receta receta, Stock stock) throws Exception {
-        List<Ingrediente> ingredientesNecesarios = receta.getIngredientes();
-        for (Ingrediente ingrediente : ingredientesNecesarios) {
-            stock.eliminarIngrediente(ingrediente.getNombre(), ingrediente.getCantidad());
+            for (Ingrediente ingrediente : ingredientesNecesarios) {
+                int cantidadNecesaria = ingrediente.getCantidad();
+                int cantidadDisponible = stock.getCantidad(ingrediente.getNombre());
+
+                if (cantidadDisponible < cantidadNecesaria) {
+                    throw new Exception("No hay suficiente cantidad de " + ingrediente.getNombre() + " para preparar el plato.");
+                }
+            }
+            for (Ingrediente ingrediente : ingredientesNecesarios) {
+                stock.eliminarIngrediente(ingrediente.getNombre(), ingrediente.getCantidad());
+            }
+            cantidadDePlatos++;
+            platoPreparado = new Comida(receta.getNombrePlato(), 0 , true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Dulce", false, receta);
+
+
+        } catch (Exception e) {
+            e.getMessage();
         }
-        cantidadDePlatos++;
-        return new Comida(receta.getNombrePlato(), 0 , true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA,"Dulce",false,receta); // Precio y otros detalles se pueden ajustar
+        return platoPreparado;
     }
 
     @Override
