@@ -1,9 +1,10 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Receta {
+public class Receta implements Serializable {
     private String nombrePlato;
     private ArrayList<Ingrediente> ingredientes;
 

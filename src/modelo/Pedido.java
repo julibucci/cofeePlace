@@ -5,11 +5,12 @@ import Interfaces.GestionPedido;
 import Excepciones.OrdenNoEncontradaException;
 import Interfaces.GestionPedido;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Pedido implements GestionPedido {
+public class Pedido implements GestionPedido, Serializable {
     private Map<Integer, ArrayList<Producto>> pedidos;
 
     public Pedido() {
