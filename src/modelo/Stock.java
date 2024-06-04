@@ -1,7 +1,8 @@
 package modelo;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Stock
+public class Stock implements Serializable
 {
     // ATRIBUTOS
     private HashMap<String, Ingrediente> inventario;

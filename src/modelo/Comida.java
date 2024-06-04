@@ -1,10 +1,11 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.List;
 
-public class Comida extends Producto
+public class Comida extends Producto implements Serializable
 {
     // ATRIBUTOS
     private String tipo;// dulce o salado

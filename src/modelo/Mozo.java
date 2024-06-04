@@ -1,9 +1,13 @@
 package modelo;
 
-public class Mozo extends Empleado {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Mozo extends Empleado implements Serializable {
     private static int salarioBase=90000;
     private int añoDeIngreso;
     private int propinas;
+
 
     public Mozo(String nombre, String apellido, int dni, int añoDeIngreso) {
         super(nombre, apellido, dni);
@@ -38,6 +42,8 @@ public class Mozo extends Empleado {
         return resultado+propinas;
     }
 
+
+
     @Override
     public String toString() {
         return "Mozo{" +
@@ -46,4 +52,30 @@ public class Mozo extends Empleado {
                 " salario " + calcularSalario() +
                 '}';
     }
+
+    public void asignarMozoAMesa(Mesa mesa, Mozo empleado){
+
+        mesa.asignarMozo(empleado);
+    }
+    //Agarra el array de platos del pedido de una mesa en especifico y se los pasa de a uno al cocinero para que le
+    //retorne una comida y con eso devuelve un array de comidas listas
+    public ArrayList<Comida> tomarPedidoYenviarAcocinero(Mesa mesa, Cocinero cocinero, Stock stock){
+        Pedido pedido=mesa.getMiPedido();
+        Comida comida=null;
+        ArrayList<Comida> comidas=new ArrayList<>();
+        ArrayList<Producto> platos=pedido.getPedido(mesa.getIdMesa());
+        for(Producto plato : platos){
+            if(plato instanceof Comida){
+                try{
+                    comida= (Comida) cocinero.prepararPlato(((Comida)plato).getReceta(), stock);
+                    comidas.add(comida);
+                }catch (Exception e){
+
+                }
+            }
+        }
+
+        return comidas;
+    }
+
 }

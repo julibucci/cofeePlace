@@ -2,7 +2,9 @@ package modelo;
 
 import Excepciones.OrdenNoEncontradaException;
 
-public class Mesa {
+import java.io.Serializable;
+
+public class Mesa implements Serializable {
 
     // Clase Mesa que gestiona un pedido y un empleado asignado
     private Mozo mozoAsignado;
