@@ -52,6 +52,9 @@ public abstract class Producto
         return estado;
     }
 
+    public boolean isDisponible() {
+        return disponibilidad;
+    }
     public TipoProducto getTipoProducto()
     {
         return tipoProducto;

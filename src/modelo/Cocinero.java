@@ -32,7 +32,7 @@ public class Cocinero extends Empleado{
             stock.eliminarIngrediente(ingrediente.getNombre(), ingrediente.getCantidad());
         }
         cantidadDePlatos++;
-        return new Comida(receta.getNombrePlato(), 0 , true, Producto.Estado.LISTO, "preparado", false, receta); // Precio y otros detalles se pueden ajustar
+        return new Comida(receta.getNombrePlato(), 0 , true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA,"Dulce",false,receta); // Precio y otros detalles se pueden ajustar
     }
 
     @Override

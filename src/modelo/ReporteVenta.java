@@ -1,6 +1,9 @@
 package modelo;
 
 import Interfaces.IInformeVenta;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,5 +114,64 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
         }
         return productosDisponibles;
     }
+
+    // Método para convertir los datos a JSON
+    public JSONObject toJson() throws Comida.ProductoNoDisponibleException {
+        JSONObject json = new JSONObject();
+        JSONArray pedidosArray = new JSONArray();
+
+        try {
+            for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
+                JSONObject pedidoJson = new JSONObject();
+                pedidoJson.put("idMesa", entry.getKey());
+
+                JSONArray productosArray = new JSONArray();
+                for (T producto : entry.getValue()) {
+                    JSONObject productoJson = new JSONObject();
+                    productoJson.put("nombre", producto.getNombre());
+                    productoJson.put("precio", producto.getPrecio());
+                    productoJson.put("disponibilidad", producto.isDisponibilidad());
+                    // Obtiene el estado del producto
+                    Producto.Estado estadoProducto = producto.getEstado();
+                    // Convierte el estado a String
+                    String estado = estadoProducto.toString();
+                    // Asigna el estado al JSON
+                    productoJson.put("estado", estado);
+
+                    if (producto instanceof Bebida) {
+                        Bebida bebida = (Bebida) producto;
+                        productoJson.put("tipo", bebida.getTipo());
+                        productoJson.put("tamanio", bebida.getTamanio());
+                        productoJson.put("alcoholica", bebida.isAlcoholica());
+                    } else if (producto instanceof Comida) {
+                        Comida comida = (Comida) producto;
+                        if (!comida.isDisponible()) {
+                            throw new Comida.ProductoNoDisponibleException("Producto no disponible: " + comida.getNombre());
+                        }
+                        productoJson.put("tipo", comida.getTipo());
+                        productoJson.put("vegetariano", comida.isVegetariano());
+                        Receta receta = comida.getReceta();
+                        if (receta != null) {
+                            String nombrePlato = receta.getNombrePlato();
+                            productoJson.put("receta", nombrePlato);
+                        }
+                    }
+
+                    productosArray.put(productoJson);
+                }
+
+                pedidoJson.put("productos", productosArray);
+                pedidosArray.put(pedidoJson);
+            }
+
+            json.put("pedidos", pedidosArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
+
 }
 

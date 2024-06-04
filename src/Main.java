@@ -1,4 +1,5 @@
 import modelo.*;
+import org.json.JSONObject;
 
 
 import java.util.ArrayList;
@@ -82,6 +83,16 @@ public class Main {
             System.out.println(stock);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+
+        try {
+            // Convertir a JSON y guardar en archivo
+            JSONObject json = reporteVenta.toJson();
+            JsonUtiles.grabar(json, "reporte_ventas");
+            System.out.println("Reporte de ventas guardado exitosamente.");
+            System.out.println(json.toString());
+        } catch (Comida.ProductoNoDisponibleException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
