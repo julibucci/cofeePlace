@@ -1,17 +1,20 @@
 package modelo;
 
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Cocinero extends Empleado implements Serializable {
     private int cantidadDePlatos;
     private static int salarioBase=70000;
+    private HashMap<String, Receta> recetas;
 
     public Cocinero(String nombre, String apellido, int dni) {
         super(nombre, apellido, dni);
         cantidadDePlatos=0;
+        this.recetas = new HashMap<>();
     }
 
     public void setCantidadDePlatos(int cantidadDePlatos) {
@@ -54,6 +57,54 @@ public class Cocinero extends Empleado implements Serializable {
         return platoPreparado;
     }
 
+    //Guardar recetas en un archivo
+    public void guardarRecetas() {
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("recetas.dat");
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(recetas);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (objectOutputStream != null) {
+                    objectOutputStream.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    //leer recetas del archivo
+    public HashMap<String, Receta> leerRecetas() {
+        ObjectInputStream objectInputStream = null;
+        HashMap<String, Receta> recetasLeidas = null;
+        try {
+            FileInputStream fileInputStream = new FileInputStream("recetas.dat");
+            objectInputStream = new ObjectInputStream(fileInputStream);
+            recetasLeidas = (HashMap<String, Receta>) objectInputStream.readObject();
+        } catch (FileNotFoundException ex) {
+            recetasLeidas = new HashMap<>();
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (objectInputStream != null) {
+                    objectInputStream.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return recetasLeidas;
+    }
+
+    // Método para agregar una nueva receta al mapa de recetas
+    public void agregarReceta(String nombrePlato, Receta receta) {
+        recetas.put(nombrePlato, receta);
+    }
     @Override
     public String toString() {
         return "Cocinero{" + super.toString() +

@@ -57,6 +57,10 @@ public class Stock implements Serializable
         return inventario.getOrDefault(nombre, new Ingrediente(nombre, 0)).getCantidad();
     }
 
+    public HashMap<String, Ingrediente> getInventario() {
+        return inventario;
+    }
+
     // METODO TOSTRING
     @Override
     public String toString() {
