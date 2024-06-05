@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -94,6 +95,41 @@ public class Main {
         } catch (Comida.ProductoNoDisponibleException e) {
             System.err.println(e.getMessage());
         }
+
+
+        Gerente gerente = new Gerente("Marta","Gomez",343243);
+        // Guardar el stock
+        gerente.guardarStock(stock);
+
+
+        // Leer el stock
+        Stock nuevoStock = gerente.leerStock();
+        System.out.println("Inventario del stock leído:");
+        for (HashMap.Entry<String, Ingrediente> entry : nuevoStock.getInventario().entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+
+        // Crear un cocinero y agregar recetas
+        Cocinero cocinero = new Cocinero("Roman", "Fernandez", 234328);
+        cocinero.agregarReceta("Ensalada", recetaEnsalada);
+        cocinero.agregarReceta("Hamburguesa", recetaHamburguesa);
+
+        // Guardar las recetas
+        cocinero.guardarRecetas();
+
+        // Leer las recetas
+        Map<String, Receta> recetasLeidas = cocinero.leerRecetas();
+        System.out.println("Recetas leídas:");
+
+        // Usar un bucle para imprimir las recetas
+        for (Map.Entry<String, Receta> entry : recetasLeidas.entrySet()) {
+            String nombre = entry.getKey();
+            Receta receta = entry.getValue();
+            System.out.println(nombre + ": " + receta);
+        }
+
+
     }
 }
 
