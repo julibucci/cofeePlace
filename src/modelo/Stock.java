@@ -64,8 +64,8 @@ public class Stock implements Serializable
     // METODO TOSTRING
     @Override
     public String toString() {
-        return "Stock{" +
-                "inventario=" + inventario +
+        return "STOCK {" +
+                "PRODUCTOS " + inventario +
                 '}';
     }
 }

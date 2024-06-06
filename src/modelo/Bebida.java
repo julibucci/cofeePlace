@@ -59,13 +59,5 @@ public class Bebida extends Producto implements Serializable
         this.tamanio = nuevoTamanio;
     }
 
-
-   /* public TipoProducto getTipoProducto()
-    {
-        return TipoProducto.BEBIDA;
-    }
-
-    */
-
 }
 
