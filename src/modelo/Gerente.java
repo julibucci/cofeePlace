@@ -68,6 +68,6 @@ public class Gerente extends Empleado implements Serializable {
     @Override
     public String toString() {
 
-        return super.toString() +" salario: " + calcularSalario();
+        return super.toString() + " salario: " + calcularSalario();
     }
 }
