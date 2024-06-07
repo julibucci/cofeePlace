@@ -31,9 +31,9 @@ public class Ingrediente implements Serializable
     // METODO TOSTRING
     @Override
     public String toString() {
-        return " INGREDIENTES{" +
-                "nombre = '" + nombre + '\'' +
-                ", cantidad = " + cantidad +
+        return "Ingrediente{" +
+                "nombre='" + nombre + '\'' +
+                ", cantidad=" + cantidad +
                 '}';
     }
 }
