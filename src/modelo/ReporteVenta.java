@@ -102,7 +102,7 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>, Seria
     }
 
     @Override
-    public ArrayList<T> listarProductosDisponibles() {
+    public ArrayList<T> listarProductosPedidos() {
         ArrayList<T> productosDisponibles = new ArrayList<>();
 
         for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
@@ -172,7 +172,5 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>, Seria
 
         return json;
     }
-
-
 }
 

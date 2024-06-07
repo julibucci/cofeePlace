@@ -65,7 +65,7 @@ public class Stock implements Serializable
     @Override
     public String toString() {
         return "STOCK {" +
-                "PRODUCTOS " + inventario +
+                "INVENTARIO " + inventario +
                 '}';
     }
 }
