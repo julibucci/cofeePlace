@@ -29,29 +29,25 @@ public class Stock implements Serializable
     }
 
     // METODO ELIMINAR INGREDIENTE
-    public void eliminarIngrediente(String nombre, int cantidad) throws Exception
-    {
-        if (inventario.containsKey(nombre))
-        {
+    public void eliminarIngrediente(String nombre, int cantidad) throws Exception {
+        if (inventario.containsKey(nombre)) {
+
             Ingrediente ingrediente = inventario.get(nombre);
-            int nuevaCantidad = ingrediente.getCantidad() - cantidad;
-            if (nuevaCantidad < 0)
-            {
+            int cantidadActual = ingrediente.getCantidad();
+
+            if (cantidadActual < cantidad) {
                 throw new Exception("No hay suficiente cantidad del ingrediente: " + nombre);
-            } else
-            {
+            } else {
+                int nuevaCantidad = cantidadActual - cantidad;
                 ingrediente.setCantidad(nuevaCantidad);
-                if (nuevaCantidad == 0)
-                {
+                if (nuevaCantidad == 0) {
                     inventario.remove(nombre);
                 }
             }
-        } else
-        {
+        } else {
             throw new Exception("Ingrediente no encontrado: " + nombre);
         }
     }
-
     // METODO GET CANTIDAD
     public int getCantidad(String nombre) {
         return inventario.getOrDefault(nombre, new Ingrediente(nombre, 0)).getCantidad();
@@ -64,10 +60,8 @@ public class Stock implements Serializable
     // METODO TOSTRING
     @Override
     public String toString() {
-        return "Stock{" +
-                "inventario=" + inventario +
+        return "STOCK {" +
+                "INVENTARIO " + inventario +
                 '}';
     }
 }
-
-

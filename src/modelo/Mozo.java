@@ -42,8 +42,6 @@ public class Mozo extends Empleado implements Serializable {
         return resultado+propinas;
     }
 
-
-
     @Override
     public String toString() {
         return "Mozo{" +

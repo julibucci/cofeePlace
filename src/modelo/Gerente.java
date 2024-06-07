@@ -65,6 +65,24 @@ public class Gerente extends Empleado implements Serializable {
         }
         return stock;
     }
+
+    public String modificarStock(ArrayList<Ingrediente> ingredientes) throws Exception {
+        String informacion = " ";
+        Stock stock = leerStock();
+
+        if (stock == null) {
+            informacion = "El archivo de stock no existe o está vacío. Por favor, cargue el stock primero.";
+        } else {
+            for (Ingrediente ingrediente : ingredientes) {
+                stock.eliminarIngrediente(ingrediente.getNombre(), 50);
+            }
+            guardarStock(stock);
+            informacion = stock.toString();
+        }
+
+        return informacion;
+    }
+
     @Override
     public String toString() {
 

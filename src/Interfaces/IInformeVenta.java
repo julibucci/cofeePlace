@@ -11,7 +11,7 @@ public interface IInformeVenta<T>
     double obtenerIngresoTotal();
     Producto obtenerProductoMasVendido();
     Producto obtenerProductoConMayorIngreso();
-    ArrayList<T> listarProductosDisponibles();
+    ArrayList<T> listarProductosPedidos();
 
 
 }
