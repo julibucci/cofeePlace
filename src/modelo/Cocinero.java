@@ -30,7 +30,6 @@ public class Cocinero extends Empleado implements Serializable {
         }
         return resultado;
     }
-
     //Recibe una receta, se fija en el stock si hay suficientes ingredientes y crea y devuelve una comida lista
     public Producto prepararPlato(Receta receta, Stock stock) {
         Producto platoPreparado = null;
@@ -59,7 +58,7 @@ public class Cocinero extends Empleado implements Serializable {
     }
 
     //Guardar recetas en un archivo
-    public void guardarRecetas(HashMap<String, Receta> recetas) {
+    public void guardarRecetas() {
         ObjectOutputStream objectOutputStream = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("recetas.dat");
@@ -103,11 +102,9 @@ public class Cocinero extends Empleado implements Serializable {
     }
 
     // Método para agregar una nueva receta al mapa de recetas
-    public HashMap<String, Receta> agregarReceta(String nombrePlato, Receta receta) {
+    public void agregarReceta(String nombrePlato, Receta receta) {
         recetas.put(nombrePlato, receta);
-        return recetas;
     }
-
     @Override
     public String toString() {
         return "Cocinero{" + super.toString() +
