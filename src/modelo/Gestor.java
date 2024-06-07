@@ -1,7 +1,10 @@
 package modelo;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,26 +60,28 @@ public class Gestor {
     // Stock
     private static Stock stock = new Stock();
 
+    private String nombreArchvioEmpleados = "empleados.dat";
+
     // Se crean y se cargan los ingredientes y recetas una vez antes de cualquier operación
     public static Stock inicializarIngredientesYRecetas()
     {
         // Carga de ingredientes individules
-        carne = new Ingrediente("Carne", 300);
-        lechuga = new Ingrediente("Lechuga", 250);
-        tomate = new Ingrediente("Tomate", 100);
-        queso = new Ingrediente("Queso", 200);
-        jamon = new Ingrediente("Jamón", 150);
-        harina = new Ingrediente("Harina", 500);
-        huevo = new Ingrediente("Huevo", 100);
-        pan = new Ingrediente("Pan", 50);
-        salsa = new Ingrediente("Salsa", 75);
-        aceitunas = new Ingrediente("Aceitunas", 30);
-        pollo = new Ingrediente("Pollo", 350);
-        papas = new Ingrediente("Papas", 200);
-        leche = new Ingrediente("Leche", 200);
-        azucar = new Ingrediente("Azúcar", 100);
-        crema = new Ingrediente("Crema", 150);
-        chocolate = new Ingrediente("Chocolate", 100);
+        carne = new Ingrediente("Carne", 1300);
+        lechuga = new Ingrediente("Lechuga", 1250);
+        tomate = new Ingrediente("Tomate", 2100);
+        queso = new Ingrediente("Queso", 3200);
+        jamon = new Ingrediente("Jamón", 1150);
+        harina = new Ingrediente("Harina", 4500);
+        huevo = new Ingrediente("Huevo", 2100);
+        pan = new Ingrediente("Pan", 1150);
+        salsa = new Ingrediente("Salsa", 875);
+        aceitunas = new Ingrediente("Aceitunas", 3000);
+        pollo = new Ingrediente("Pollo", 3250);
+        papas = new Ingrediente("Papas", 1200);
+        leche = new Ingrediente("Leche", 5200);
+        azucar = new Ingrediente("Azúcar", 4100);
+        crema = new Ingrediente("Crema", 3150);
+        chocolate = new Ingrediente("Chocolate", 2100);
 
         // Carga de ingredientes por producto
         ingredientesPizza.add(harina);
@@ -211,6 +216,10 @@ public class Gestor {
         return recetaFlan;
     }
 
+    public static Receta obtenerRecetaPorNombreProducto(String nombreProducto) {
+        return listaRecetas.get(nombreProducto);
+    }
+
     public static HashMap<String, Receta> getListaRecetas()
     {
         return listaRecetas;
@@ -284,8 +293,7 @@ public class Gestor {
         return reporteVenta.listarProductosPedidos();
     }
 
-    public static void guardarReporteVentas()
-    {
+    public static void guardarReporteVentas() {
         if (reporteVenta == null) {
             throw new IllegalStateException("Primero anote los pedidos.");
         }
@@ -296,8 +304,8 @@ public class Gestor {
         } catch (Comida.ProductoNoDisponibleException e) {
             throw new IllegalStateException(e.getMessage());
         }
-    }
 
+    }
     public static String leerReporteVentas() {
         String infoJson = " ";
         try {
@@ -308,36 +316,25 @@ public class Gestor {
         return infoJson;
     }
 
+
     // Metodos de stock (cada uno llama a los métodos de la clase Stock según corresponde)
-    public static String modificarStock()
-    {
-        String informacion = " ";
-
+    public static String modificarStock(Gerente gerente, ArrayList<Ingrediente> ingredientes) {
         try {
-            // Verificar si el archivo de stock existe y no está vacío
-            File file = new File("stock.dat");
-
-            if (!file.exists() || file.length() == 0) {
-                informacion = "El archivo de stock no existe o está vacío. Por favor, cargue el stock primero.";
-            } else {
-                // Modificar el stock
-                stock.eliminarIngrediente("Lechuga", 50);
-                informacion = stock.toString();
-            }
+            return gerente.modificarStock(ingredientes);
         } catch (Exception e) {
-            informacion = "Error: " + e.getMessage();
+            throw new RuntimeException(e);
         }
-
-        return informacion;
     }
 
-    public static Stock guardarYLeerStock() {
-        Gerente gerente = new Gerente("Ana", "Lopez", 78912361);
+    public static void guardarStock(Gerente gerente, Stock stock) {
         gerente.guardarStock(stock);
+    }
 
+    public static Stock leerStock(Gerente gerente) {
         Stock nuevoStock = gerente.leerStock();
         return nuevoStock;
     }
+
 
     // Métodos de recetas (cada uno llama a los métodos de la clase Cocinero según corresponde)
     public static void guardarRecetas(Cocinero cocinero) {
@@ -350,5 +347,53 @@ public class Gestor {
 
     public static HashMap<String, Receta> leerRecetas(Cocinero cocinero) {
         return cocinero.leerRecetas();
+    }
+
+    public static void guardarEmpleados(ArrayList<Empleado> empleados) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("empleados.dat"))) {
+            oos.writeObject(empleados);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Cargar empleados desde archivo
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Empleado> cargarEmpleados() {
+        File file = new File("empleados.dat");
+        if (!file.exists()) {
+            return new ArrayList<>(); // Retornar lista vacía si no existe el archivo
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("empleados.dat"))) {
+            return (ArrayList<Empleado>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public static ArrayList<Empleado> leerEmpleados() {
+        ArrayList<Empleado> empleados = new ArrayList<>();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("empleados.dat"))) {
+            // Leer el objeto que contiene la lista de empleados
+            Object obj = ois.readObject();
+
+            // Verificar si el objeto es una lista de empleados
+            if (obj instanceof ArrayList<?>) {
+
+                ArrayList<Empleado> lista = (ArrayList<Empleado>) obj;
+                empleados.addAll(lista); // Agregar todos los empleados a la lista principal
+            } else {
+                System.err.println("El archivo no contiene una lista de empleados.");
+            }
+        } catch (EOFException e) {
+            // Se alcanzó el final del archivo, no hay más objetos que leer
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al leer el archivo de empleados: " + e.getMessage());
+        }
+
+        return empleados;
     }
 }

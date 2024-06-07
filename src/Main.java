@@ -8,9 +8,19 @@ import java.util.Map;
 public class Main {
 
         static Scanner scanner = new Scanner(System.in);
+        static ArrayList<Empleado> empleados = new ArrayList<>();
 
         public static void main (String[]args){
 
+            empleados = Gestor.cargarEmpleados();
+
+            // Si no hay empleados en el archivo, se crean empleados y se guardan en el msimo. Así se crean 1 sola vez
+            if (empleados.isEmpty()) {
+                empleados.add(new Cocinero("Pedro", "Gomez", 65432134));
+                empleados.add(new Mozo("Juan", "Perez", 12345678, 2019));
+                empleados.add(new Gerente("Ana", "Lopez", 78912361));
+                Gestor.guardarEmpleados(empleados);
+            }
             menuPrincipal();
             scanner.close();
 
@@ -35,7 +45,7 @@ public class Main {
                     menuAdmin(stock);
                     break;
                 case 2:
-                    menuEmpleado(stock);
+                    menuEmpleado(empleados, stock);
                     break;
                 case 3:
                     System.out.println("Saliendo del sistema...");
@@ -95,6 +105,22 @@ public class Main {
                                     {
                                         pedidos.add(producto);
                                         System.out.println("Producto agregado al pedido.");
+
+                                        // Modificar el stock de ingredientes
+                                        Receta receta = Gestor.obtenerRecetaPorNombreProducto(productoNombre);
+                                        if (receta != null) {
+
+                                            Gerente gerente = (Gerente) empleados.getLast();
+                                            // Modificar el stock según los ingredientes de la receta
+                                            for (Ingrediente ingrediente : receta.getIngredientes()) {
+                                                Gestor.modificarStock(gerente, receta.getIngredientes());
+                                            }
+                                            // Preparar el plato
+                                            Cocinero cocinero = (Cocinero) empleados.getFirst();
+                                            cocinero.prepararPlato(receta, stock);
+                                        } else {
+                                            System.out.println("El producto no tiene una receta asociada.");
+                                        }
 
                                     } else {
                                         System.out.println("El producto no está disponible.");
@@ -181,23 +207,23 @@ public class Main {
                         while (subContinuar2 == 's') {
                             System.out.println("--------------------------------------");
                             System.out.println("Elija una opción referente a la gestión del stock.");
-                            System.out.println("1. Leer y guardar stock en archivo.");
-                            System.out.println("2. Modificar stock.");
+                            System.out.println("1. Guardar stok en archivo.");
+                            System.out.println("2. Leer stock.");
                             System.out.println("3. Volver al menú del administrador.");
                             System.out.println("--------------------------------------");
                             int subOpcion = scanner.nextInt();
 
+                            Gerente gerente = (Gerente) empleados.getLast();
+
                             switch (subOpcion) {
                                 case 1:
-                                    System.out.println("Stock inicial:");
-                                    stock = Gestor.guardarYLeerStock();
-                                    String stockInicial = stock.toString();
-                                    System.out.println(stockInicial);
+                                    Gestor.guardarStock(gerente, stock);
+                                    System.out.println("Stock guardado correctamente.");
                                     break;
                                 case 2:
-                                    System.out.println("Stock actualizado luego de eliminar 50 de 'Lechuga':");
-                                    String stockActualizado = Gestor.modificarStock();
-                                    System.out.println(stockActualizado);
+                                    System.out.println("Stock actual:");
+                                    Stock stockLeido = Gestor.leerStock(gerente);
+                                    System.out.println(stockLeido);
                                     break;
                                 case 3:
                                     menuAdmin(stock);
@@ -269,11 +295,7 @@ public class Main {
         }
 
 
-        public static void menuEmpleado (Stock stock){
-            ArrayList<Empleado> empleados = new ArrayList<>();
-            empleados.add(new Cocinero("Pedro", "Gomez", 65432134));
-            empleados.add(new Mozo("Juan", "Perez", 12345678, 2019));
-            empleados.add(new Gerente("Ana", "Lopez", 78912361));
+        public static void menuEmpleado (ArrayList<Empleado> empleados, Stock stock){
 
             System.out.println("--------------------------------------");
             System.out.println("MENÚ EMPLEADO:");
@@ -341,7 +363,7 @@ public class Main {
                         }
                         break;
                     case 3:
-                        menuEmpleado(stock);
+                        menuEmpleado(empleados, stock);
                         break;
                     default:
                         System.out.println("Opción no válida.");
@@ -440,7 +462,7 @@ public class Main {
                         System.out.println("El mozo cobra $" + salarioMozo + ".");
                         break;
                     case 3:
-                        menuEmpleado(stock);
+                        menuEmpleado(empleados, stock);
                         break;
                     default:
                         System.out.println("Opción no válida");
@@ -458,7 +480,7 @@ public class Main {
                 System.out.println("--------------------------------------");
                 System.out.println("Menú Gerente:");
                 System.out.println("1. Leer stock.");
-                System.out.println("2. Guardar stock en archivo.");
+                System.out.println("2. Ver empleados en archivo.");
                 System.out.println("3. Volver al menú de empleados.");
                 System.out.println("--------------------------------------");
                 int opcion = scanner.nextInt();
@@ -476,11 +498,14 @@ public class Main {
                         }
                         break;
                     case 2:
-                        gerente.guardarStock(stock);
-                        System.out.println("Stock guardado correctamente.");
+                        ArrayList<Empleado> empleadosCase2 = Gestor.leerEmpleados();
+                        System.out.println("Empleados:");
+                        for (Empleado empleado : empleadosCase2) {
+                            System.out.println(empleado);
+                        }
                         break;
                     case 3:
-                        menuEmpleado(stock);
+                        menuEmpleado(empleados, stock);
                         break;
                     default:
                         System.out.println("Opción no válida.");
@@ -504,9 +529,21 @@ import java.util.Map;
 
 public class Main {
     static Stock stock = Gestor.inicializarIngredientesYRecetas();
+    static ArrayList<Empleado> empleados = new ArrayList<>();
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Main::menuPrincipal);
+        empleados = Gestor.cargarEmpleados();
+
+        // Si no hay empleados en el archivo, se crean empleados y se guardan en el mismo. Así se crean 1 sola vez
+        if (empleados.isEmpty()) {
+            empleados.add(new Cocinero("Pedro", "Gomez", 65432134));
+            empleados.add(new Mozo("Juan", "Perez", 12345678, 2019));
+            empleados.add(new Gerente("Ana", "Lopez", 78912361));
+            Gestor.guardarEmpleados(empleados);
+        }
+
+         SwingUtilities.invokeLater(Main::menuPrincipal);
+
     }
 
     private static void menuPrincipal() {
@@ -567,6 +604,21 @@ public class Main {
         salirButton.setBounds(70, 110, 150, 25);
         salirButton.addActionListener(e -> System.exit(0));
         panel.add(salirButton);
+    }
+
+    private static void mostrarMensaje(JFrame frame, String mensaje) {
+        JTextArea textArea = new JTextArea(mensaje);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(500, 400)); // Tamaño del JScrollPane
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JOptionPane.showMessageDialog(frame, panel, "Mensaje", JOptionPane.PLAIN_MESSAGE);
     }
 
     private static void addAdminButtons(JPanel panel, JFrame frame) {
@@ -721,7 +773,7 @@ public class Main {
             for (Producto producto : productos) {
                 productosStr.append(producto.toString()).append("\n");
             }
-            JOptionPane.showMessageDialog(frame, productosStr.toString());
+            mostrarMensaje(frame, productosStr.toString());
         });
         panel.add(productosPedidosButton);
 
@@ -735,7 +787,7 @@ public class Main {
         JButton leerReporteButton = new JButton("Leer reporte de ventas en JSON");
         leerReporteButton.addActionListener(e -> {
             String reporte = Gestor.leerReporteVentas();
-            JOptionPane.showMessageDialog(frame, reporte);
+            mostrarMensaje(frame, reporte);
         });
         panel.add(leerReporteButton);
 
@@ -745,20 +797,28 @@ public class Main {
     }
 
     private static void addStockButtons(JPanel panel, JFrame frame) {
-        JButton leerYGuardarStockButton = new JButton("Leer y guardar stock en archivo");
-        leerYGuardarStockButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Stock inicial:\n" + stock.toString());
-            stock = Gestor.guardarYLeerStock();
-            JOptionPane.showMessageDialog(frame, "Stock actualizado:\n" + stock.toString());
+        Gerente gerente = (Gerente) empleados.getLast();
+        JButton leerStockButton = new JButton("Leer stock desde archivo");
+        leerStockButton.addActionListener(e -> {
+            stock = Gestor.leerStock(gerente);
+            if (stock != null) {
+                mostrarMensaje(frame, "Stock leído correctamente:\n" + stock.toString());
+            } else {
+                mostrarMensaje(frame, "No se pudo leer el stock desde el archivo.");
+            }
         });
-        panel.add(leerYGuardarStockButton);
+        panel.add(leerStockButton);
 
-        JButton modificarStockButton = new JButton("Modificar stock");
-        modificarStockButton.addActionListener(e -> {
-            String mensaje = "Stock actualizado luego de eliminar 50 de 'Lechuga':\n" + Gestor.modificarStock();
-            JOptionPane.showMessageDialog(frame, mensaje);
+        JButton guardarStockButton = new JButton("Guardar stock en archivo");
+        guardarStockButton.addActionListener(e -> {
+            if(stock != null){
+                Gestor.guardarStock(gerente, stock);
+                mostrarMensaje(frame, "Stock guardado correctamente en el archivo.");
+            } else {
+                mostrarMensaje(frame, "No se pudo guardar el stock en el archivo.");
+            }
         });
-        panel.add(modificarStockButton);
+        panel.add(guardarStockButton);
 
         JButton volverButton = new JButton("Volver");
         volverButton.addActionListener(e -> frame.dispose());
@@ -883,7 +943,7 @@ public class Main {
 
         JButton anotarPedidosButton = new JButton("Tomar y mostrar pedidos.");
         anotarPedidosButton.addActionListener(e -> {
-            Mozo mozo = new Mozo("Juan", "Perez", 12345678, 2019);
+            Mozo mozo = (Mozo) empleados.get(1);
             Menu menu = new Menu();
 
             JFrame pedidosFrame = new JFrame("Anotar Pedidos");
@@ -929,7 +989,15 @@ public class Main {
             terminarButton.addActionListener(ae -> {
                 if (!pedidos.isEmpty()) {
                     Gestor.anotarPedidos(pedidos);
-                    JOptionPane.showMessageDialog(pedidosFrame, "Pedidos anotados y ventas registradas correctamente.");
+                    JOptionPane.showMessageDialog(pedidosFrame, "Pedidos anotados correctamente.");
+
+                    ArrayList<Producto> productos = Gestor.obtenerProductosPedidos();
+                    StringBuilder productosStr = new StringBuilder("Productos pedidos:\n");
+                    for (Producto producto : productos) {
+                        productosStr.append(producto.toString()).append("\n");
+                    }
+                    mostrarMensaje(frame, productosStr.toString());
+
                 } else {
                     JOptionPane.showMessageDialog(pedidosFrame, "No se han realizado pedidos.");
                 }
@@ -940,7 +1008,6 @@ public class Main {
             pedidosFrame.setLocationRelativeTo(null);
         });
         panel.add(anotarPedidosButton);
-
 
         JButton calcularSalarioButton = new JButton("Calcular salario");
         calcularSalarioButton.addActionListener(e -> {
@@ -962,23 +1029,29 @@ public class Main {
             Gerente gerente = new Gerente("Ana", "Lopez", 78912361);
             Stock stockLeido = gerente.leerStock();
             if (stockLeido != null) {
-                JOptionPane.showMessageDialog(frame, "Stock actual:\n" + stockLeido.toString());
+                mostrarMensaje(frame, stockLeido.toString());
             } else {
                 JOptionPane.showMessageDialog(frame, "Error: El archivo está vacío.");
             }
         });
         panel.add(leerStockButton);
 
-        JButton guardarStockButton = new JButton("Guardar stock en archivo");
-        guardarStockButton.addActionListener(e -> {
-            Gerente gerente = new Gerente("Ana", "Lopez", 78912361);
-            gerente.guardarStock(stock);
-            JOptionPane.showMessageDialog(frame, "Stock guardado correctamente.");
+        JButton mostrarEmpleadosButton = new JButton("Mostrar empleados");
+        mostrarEmpleadosButton.addActionListener(e -> {
+            ArrayList<Empleado> empleadosCargados = Gestor.leerEmpleados();
+            StringBuilder mensaje = new StringBuilder("Empleados cargados:\n");
+            for (Empleado empleado : empleadosCargados) {
+                mensaje.append(empleado.toString()).append("\n");
+            }
+            JOptionPane.showMessageDialog(frame, mensaje.toString());
         });
-        panel.add(guardarStockButton);
+        panel.add(mostrarEmpleadosButton);
+
 
         JButton volverButton = new JButton("Volver al menú de empleados");
         volverButton.addActionListener(e -> frame.dispose());
         panel.add(volverButton);
     }
 }
+
+

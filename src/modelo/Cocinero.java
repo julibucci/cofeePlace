@@ -58,7 +58,7 @@ public class Cocinero extends Empleado implements Serializable {
     }
 
     //Guardar recetas en un archivo
-    public void guardarRecetas() {
+    public void guardarRecetas(HashMap<String, Receta> recetas) {
         ObjectOutputStream objectOutputStream = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("recetas.dat");
