@@ -115,7 +115,6 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
         return productosDisponibles;
     }
 
-    // Método para convertir los datos a JSON
     public JSONObject toJson() throws Comida.ProductoNoDisponibleException {
         JSONObject json = new JSONObject();
         JSONArray pedidosArray = new JSONArray();
@@ -138,17 +137,16 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
                     // Asigna el estado al JSON
                     productoJson.put("estado", estado);
 
+                    // Agregar información específica para cada tipo de producto
                     if (producto instanceof Bebida) {
                         Bebida bebida = (Bebida) producto;
+                        productoJson.put("tipoProducto", bebida.getTipoProducto().toString());
                         productoJson.put("tipo", bebida.getTipo());
                         productoJson.put("tamanio", bebida.getTamanio());
                         productoJson.put("alcoholica", bebida.isAlcoholica());
                     } else if (producto instanceof Comida) {
                         Comida comida = (Comida) producto;
-                        if (!comida.isDisponible()) {
-                            throw new Comida.ProductoNoDisponibleException("Producto no disponible: " + comida.getNombre());
-                        }
-                        productoJson.put("tipo", comida.getTipo());
+                        productoJson.put("tipoProducto", comida.getTipoProducto().toString());
                         productoJson.put("vegetariano", comida.isVegetariano());
                         Receta receta = comida.getReceta();
                         if (receta != null) {
@@ -171,7 +169,86 @@ public class ReporteVenta<T extends Producto> implements IInformeVenta<T>
 
         return json;
     }
+    public static ReporteVenta<Producto> fromJson(JSONObject json) {
+        ReporteVenta<Producto> reporteVenta = null;
+        try {
+            // Obtener el array de pedidos del JSON
+            JSONArray pedidosArray = json.getJSONArray("pedidos");
+
+            // Crear un HashMap para almacenar los productos
+            HashMap<Integer, ArrayList<Producto>> cantidadProductos = new HashMap<>();
+
+            // Iterar sobre los pedidos
+            for (int i = 0; i < pedidosArray.length(); i++) {
+                JSONObject pedidoJson = pedidosArray.getJSONObject(i);
+                int idMesa = pedidoJson.getInt("idMesa");
+
+                // Obtener el array de productos del pedido
+                JSONArray productosArray = pedidoJson.getJSONArray("productos");
+                ArrayList<Producto> productos = new ArrayList<>();
+
+                // Iterar sobre los productos del pedido
+                for (int j = 0; j < productosArray.length(); j++) {
+                    JSONObject productoJson = productosArray.getJSONObject(j);
+                    String nombre = productoJson.getString("nombre");
+                    double precio = productoJson.getDouble("precio");
+                    boolean disponibilidad = productoJson.getBoolean("disponibilidad");
+                    String estadoString = productoJson.getString("estado");
+                    Producto.Estado estado = Producto.Estado.valueOf(estadoString);
+                    String tipoProductoString = productoJson.getString("tipoProducto");
+                    Producto.TipoProducto tipoProducto = Producto.TipoProducto.valueOf(tipoProductoString);
+
+                    // Lógica para instanciar el producto adecuado (Bebida o Comida)
+                    Producto producto;
+                    if (tipoProducto == Producto.TipoProducto.BEBIDA) {
+                        // Verificar si el campo "tipo" está presente antes de intentar obtenerlo
+                        if (productoJson.has("tipo")) {
+                            String tipo = productoJson.getString("tipo");
+                            boolean alcoholica = productoJson.getBoolean("alcoholica");
+                            String tamanio = productoJson.getString("tamanio");
+                            producto = new Bebida(nombre, precio, disponibilidad, estado, tipoProducto, tipo, tamanio, alcoholica);
+                        } else {
+                            // Manejar el caso donde no hay campo "tipo" para bebidas
+                            producto = new Bebida(nombre, precio, disponibilidad, estado, tipoProducto, "", "", false);
+                        }
+                    } else {
+                        boolean vegetariano = productoJson.getBoolean("vegetariano");
+                        Receta receta = null;
+                        if (productoJson.has("receta")) {
+                            String nombrePlato = productoJson.getString("receta");
+                            receta = new Receta(nombrePlato, new ArrayList<>());
+                        }
+                        producto = new Comida(nombre, precio, disponibilidad, estado, tipoProducto, "", vegetariano, receta);
+                    }
+
+                    // Agregar el producto a la lista de productos
+                    productos.add(producto);
+                }
+
+                // Agregar la lista de productos al HashMap
+                cantidadProductos.put(idMesa, productos);
+            }
+
+            // Crear la instancia de ReporteVenta con el HashMap de productos
+            reporteVenta = new ReporteVenta<>(cantidadProductos);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return reporteVenta;
+    }
 
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Reporte de Ventas:\n");
+        for (Map.Entry<Integer, ArrayList<T>> entry : cantidadProductos.entrySet()) {
+            sb.append("Pedido en la mesa ").append(entry.getKey()).append(":\n");
+            for (T producto : entry.getValue()) {
+                sb.append("\t").append(producto).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
 

@@ -1,4 +1,5 @@
 import modelo.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
-        Ingrediente carne = new Ingrediente("Carne", 300);
+        /*Ingrediente carne = new Ingrediente("Carne", 300);
         Ingrediente lechuga = new Ingrediente("Lechuga", 100);
         Ingrediente tomate = new Ingrediente("Tomate", 100);
 
@@ -93,6 +94,35 @@ public class Main {
             System.out.println(json.toString());
         } catch (Comida.ProductoNoDisponibleException e) {
             System.err.println(e.getMessage());
+        }
+
+         */
+
+        // Crear un HashMap para simular datos de venta
+        HashMap<Integer, ArrayList<Producto>> ventas = new HashMap<>();
+        ArrayList<Producto> productos1 = new ArrayList<>();
+        productos1.add(new Comida("Hamburguesa", 10.0, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Rápida", false, null));
+        productos1.add(new Bebida("Refresco", 2.5, true, Producto.Estado.LISTO, Producto.TipoProducto.BEBIDA, "Gaseosa", "500ml", false));
+        ArrayList<Producto> productos2 = new ArrayList<>();
+        productos2.add(new Comida("Pizza", 12.0, true, Producto.Estado.LISTO, Producto.TipoProducto.COMIDA, "Italiana", true, null));
+        ventas.put(1, productos1);
+        ventas.put(2, productos2);
+
+        // Crear un objeto ReporteVenta con los datos simulados
+        ReporteVenta<Producto> reporteVenta = new ReporteVenta<>(ventas);
+
+        try {
+            // Convertir el reporte de ventas a JSON
+            JSONObject jsonReporte = reporteVenta.toJson();
+            System.out.println("Reporte en formato JSON:");
+            System.out.println(jsonReporte.toString());
+
+            // Convertir el JSON nuevamente a un objeto ReporteVenta
+            ReporteVenta<Producto> reporteDesdeJson = ReporteVenta.fromJson(jsonReporte);
+            System.out.println("\nReporte reconstruido desde JSON:");
+            System.out.println(reporteDesdeJson);
+        } catch (Comida.ProductoNoDisponibleException e) {
+            System.out.println("Error al convertir a JSON: " + e.getMessage());
         }
     }
 }
